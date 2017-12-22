@@ -21,13 +21,31 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 0;
+  padding-top: 70px;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  padding-bottom: 20px;
+}
+
+.header {
+  background-color: dodgerblue;
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  height: 60px;
+  top: 0;
+}
+
+.header > nav {
+  height: 100%;
 }
 
 .fade-enter-active, .fade-leave-active {

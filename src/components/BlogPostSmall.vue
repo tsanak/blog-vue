@@ -1,8 +1,11 @@
 <template>
 <router-link :to="`/read/${post.id}`">
     <div class="blog__post_small">
-        <p>{{ post.title }}</p>
         <img :src="post.image" alt="">
+        <div class="post_extra">
+            <p class="post_category">Category {{ post.category }}</p>
+            <p class="post_title">{{ post.title }}</p>
+        </div>
     </div>
     </router-link>
 </template>
@@ -15,43 +18,43 @@ export default {
 </script>
 
 <style scoped>
+a {
+    text-decoration: none;
+}
+
 .blog__post_small {
-    height: 200px;
     position: relative;
     margin: 0 auto;
+    border-radius: 5px;
 }
 
-.blog__post_small:hover {
-    height: 200px;
+.post_extra {
+    background-color: #ddd;
+    color: #333;
+    margin-top: -5px;
+    text-decoration: none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     width: 100%;
-    background-color: #585858;
-    z-index: 1;
+    padding: 10px 4px;
+    border-top: 0;
+    border: 1px solid transparent;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.blog__post_small:hover > img {
-    opacity: 0.25;
-}
-
-.blog__post_small:hover > p {
-    opacity: 1;
-}
-
-.blog__post_small > p {
-   position: absolute; 
-   top: calc(50% - 24px);
-   left: 0;
-   text-align: center; 
-   width: 100%;
-   color: #fff;
-   opacity: 0;
-   transition: opacity 250ms;
-   z-index: 2;
+.blog__post_small:hover .post_extra {
+    background-color: transparent;
+    border-color: #ddd;
 }
 
 .blog__post_small > img{
     width: 100%;
-    height: 100%;
+    height: 200px;
     margin: 0 auto;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 @media screen and (max-width: 545px){

@@ -26,5 +26,8 @@ export default new Router({
       props: true,
       component: BlogFeed
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { savedPosition }
+  }
 })

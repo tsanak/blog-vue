@@ -1,13 +1,14 @@
 <template>
     <div class="feed__container">
         <h1>Blog feed</h1>
-        <div class="blog__feed">
+        <div class="blog__feed" v-if="posts.length > 0">
                 <blog-post-small
                 v-for='(item, index) in posts'
                 v-bind:key='index'
-                v-bind:post="{ title: item.title, image: item.url , id: item.id }"
+                v-bind:post="{ title: item.title, image: item.url , id: item.id, category: item.category }"
                 />
         </div>
+        <h3 v-else>There are no posts yet :(</h3>   
     </div>
 </template>
 
@@ -28,7 +29,7 @@ export default {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 10px;
+    grid-gap: 25px;
 }
 
 @media screen and (max-width: 768px){

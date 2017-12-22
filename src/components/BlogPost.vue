@@ -49,6 +49,10 @@ export default {
     max-width: 80%;
 }
 
+.blog__post.fade-leave-active {
+    transition: opacity 0s;
+}
+
 .blog__post > img {
     max-height: 250px;
     grid-column: 1 / 2;
