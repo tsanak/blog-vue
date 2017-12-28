@@ -1,5 +1,6 @@
 <template>
   <div class="categories__container">
+      <div class="category active__category" @click="filterCategory(0, $event)">Show all</div>
         <div
             class="category"
             v-for="category in categories"
@@ -32,34 +33,27 @@
                         id: 4,
                         title: "Category 4"
                     },
-                    {
-                        id: 5,
-                        title: "Category 5"
-                    },
-                    {
-                        id: 6,
-                        title: "Category 6"
-                    },
-                    {
-                        id: 7,
-                        title: "Category 7"
-                    }
                 ],
                 activeCategory: 0
             }
         },
         methods: {
-            filterCategory(id, $event) {
+            activateCategoryCss(event) {
                 // Remove/Add .active__category on the category div that the user clicked
                 let cat_els = document.getElementsByClassName("active__category");
+
                 for(let el of cat_els) {
-                    if(el == event.target)  return;
+                    if(el == event.target)  return false;
                     el.classList.remove("active__category");
                 }
-                
+
                 event.target.classList.add("active__category");
+            },
+            filterCategory(id, $event) {
+                this.activateCategoryCss(event);
                 this.activeCategory = id;
-                this.$emit('filterCategory', id);
+                if( id == 0) this.$store.dispatch('resetCategoryFiltering');
+                else this.$store.dispatch('getPostsInCategory', { id });
             }
         }
     }
