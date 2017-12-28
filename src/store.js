@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
     state: {
         posts: [],
         filteredPosts: [],
-        postsUpdated: false
+        postsUpdated: false,
+        isLoading: false
     },
     getters: {
         posts(state) {
@@ -19,6 +20,9 @@ export const store = new Vuex.Store({
         },
         postsUpdated(state) {
             return state.postsUpdated;
+        },
+        isLoading(state) {
+            return state.isLoading;
         },
         post(state) {
             return postId => state.posts.filter(blogPost => {
@@ -31,16 +35,22 @@ export const store = new Vuex.Store({
             state.posts = posts;
             state.filteredPosts = posts;
             state.postsUpdated = true;
+            state.isLoading = false;
         },
         getPostsInCategory(state, posts) {
             state.filteredPosts = posts;
+            state.isLoading = false;
         },
         resetCategoryFiltering(state) {
             state.filteredPosts = state.posts;
+            state.isLoading = false;
+        },
+        isLoading(state) {
+            state.isLoading = true;
         }
     },
     actions: {
-        async getInitialPosts({ commit }) {
+        async getInitialPosts({ commit, state }) {
             try {
                 const postsApi = await axios.get("https://jsonplaceholder.typicode.com/photos")
                 const posts = postsApi.data.slice(0, 100);
@@ -61,6 +71,9 @@ export const store = new Vuex.Store({
         },
         resetCategoryFiltering({ commit }) {
             commit('resetCategoryFiltering');
+        },
+        isLoading({ commit }) {
+            commit('isLoading');
         }
     }
 });
