@@ -9,7 +9,7 @@ import config from './config';
 
 Vue.config.productionTip = false
 
-
+let app;
 Firebase.initializeApp(config);
 
 Firebase.auth().onAuthStateChanged(function(user) {
@@ -23,10 +23,27 @@ Firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 
+router.beforeEach((to, from, next) => {
+  const currentUser = Firebase.auth().currentUser;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAuth && !currentUser) {
+    next('/sign-in');
+  } else if (requiresAuth && currentUser) {
+    next();
+  } else {
+    next();
+  }
+});
 
-/* eslint-disable no-new */
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+//Make sure that firebase is initialized before Vue,
+//so that we can check if user is logged in
+Firebase.auth().onAuthStateChanged(function(user) {
+  if(!app) {
+    /* eslint-disable no-new */
+    app = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+});

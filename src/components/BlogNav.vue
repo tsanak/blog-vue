@@ -5,17 +5,22 @@
         </router-link>
         <ul class="nav-right" v-if="!isLoggedIn">
             <li>
-                <router-link :to="{ name: 'signin' }">
+                <router-link :to="{ name: 'sign-in' }">
                     Sign in
                 </router-link>
             </li>
             <li>
-                <router-link :to="{ name: 'signup' }">
+                <router-link :to="{ name: 'sign-up' }">
                     Sign up
                 </router-link>
             </li>
         </ul>
         <ul class="nav-right" v-else>
+            <li>
+                <router-link :to="{ name: 'dashboard'}">
+                    Dashboard
+                </router-link>
+            </li>
             <li>
                 <a href="#" @click="logout">
                     Sign out

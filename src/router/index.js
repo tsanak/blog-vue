@@ -6,6 +6,7 @@ import BlogFeed from '@/components/BlogFeed'
 import BlogPost from '@/components/BlogPost'
 import SignIn from '@/components/SignIn'
 import SignUp from '@/components/SignUp'
+import Dashboard from '@/components/Dashboard'
 
 Vue.use(Router)
 
@@ -19,13 +20,13 @@ export default new Router({
       component: BlogHome
     },
     {
-      path: '/signin',
-      name: 'signin',
+      path: '/sign-in',
+      name: 'sign-in',
       component: SignIn
     },
     {
-      path: '/signup',
-      name: 'signup',
+      path: '/sign-up',
+      name: 'sign-up',
       component: SignUp
     },
     {
@@ -39,6 +40,14 @@ export default new Router({
       name: 'post-category',
       props: true,
       component: BlogFeed
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
+      meta: {
+        requiresAuth: true
+       }
     }
   ],
   scrollBehavior (to, from, savedPosition) {

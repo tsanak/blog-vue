@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="container__item">
-            <div class="form">
+            <div class="form" v-if="canContinue">
                 <p class='error' v-if="hasError">{{error}}</p>
                 <input type="email" class="form__field" v-model="email" placeholder="Your E-Mail Address" />
                 <input class="form__field" type="password" v-model="password" id="password" placeholder="*******">            
@@ -15,7 +15,7 @@
     import Firebase from "firebase";
 
     export default {
-        name: 'signin',
+        name: 'sign-in',
         data() {
             return {
                 email: '',
@@ -24,6 +24,13 @@
             }
         },
         computed: {
+            canContinue() {
+                if(Firebase.auth().currentUser) {
+                    this.$router.replace('/');
+                    return false;
+                }
+                return true;
+            },
             hasError() {
                 if(this.error != '') return true;
                 return false;
