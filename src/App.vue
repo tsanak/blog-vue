@@ -3,7 +3,7 @@
     <div class="header">
       <blog-nav></blog-nav>
     </div>
-    <transition name="fade">
+    <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
   </div>
@@ -51,7 +51,16 @@ body {
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }
+
 .fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity 1s
+}
+
+.component-fade-enter, .component-fade-leave-to {
   opacity: 0
 }
 </style>

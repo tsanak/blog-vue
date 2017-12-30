@@ -1,14 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios'
+//import createPersistedState from 'vuex-persistedstate';
+import axios from 'axios';
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+//    plugins: [createPersistedState()],
     state: {
         posts: [],
         filteredPosts: [],
-        postsUpdated: false
+        postsUpdated: false,
+        isLoading: false,
+        user: null
     },
     getters: {
         posts(state) {
@@ -20,10 +24,16 @@ export const store = new Vuex.Store({
         postsUpdated(state) {
             return state.postsUpdated;
         },
+        isLoading(state) {
+            return state.isLoading;
+        },
         post(state) {
             return postId => state.posts.filter(blogPost => {
                 return blogPost.id == postId;
             });
+        },
+        user(state) {
+            return state.user;
         }
     },
     mutations: {
@@ -31,16 +41,28 @@ export const store = new Vuex.Store({
             state.posts = posts;
             state.filteredPosts = posts;
             state.postsUpdated = true;
+            state.isLoading = false;
         },
         getPostsInCategory(state, posts) {
             state.filteredPosts = posts;
+            state.isLoading = false;
         },
         resetCategoryFiltering(state) {
             state.filteredPosts = state.posts;
+            state.isLoading = false;
+        },
+        isLoading(state) {
+            state.isLoading = true;
+        },
+        getUserData(state, userData) {
+            state.user = userData;
+        },
+        signout(state) {
+            state.user = null;
         }
     },
     actions: {
-        async getInitialPosts({ commit }) {
+        async getInitialPosts({ commit, state }) {
             try {
                 const postsApi = await axios.get("https://jsonplaceholder.typicode.com/photos")
                 const posts = postsApi.data.slice(0, 100);
@@ -61,6 +83,26 @@ export const store = new Vuex.Store({
         },
         resetCategoryFiltering({ commit }) {
             commit('resetCategoryFiltering');
+        },
+        isLoading({ commit }) {
+            commit('isLoading');
+        },
+        getUserData({ commit, state }, payload) {
+            let user = {
+                displayName: '',
+                email: '',
+                phoneNumber: '',
+                photoURL: ''
+            };
+            let puser = payload.user;
+            user.displayName = puser.displayName;
+            user.email = puser.email;
+            user.phoneNumber = puser.phoneNumber;
+            user.photoURL = puser.photoURL;
+            commit('getUserData', payload.user);
+        },
+        signout({ commit }) {
+            commit('signout');
         }
     }
 });
