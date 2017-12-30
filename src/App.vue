@@ -63,4 +63,12 @@ body {
 .component-fade-enter, .component-fade-leave-to {
   opacity: 0
 }
+
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity 1s
+}
+
+.component-fade-enter, .component-fade-leave-to {
+  opacity: 0
+}
 </style>
