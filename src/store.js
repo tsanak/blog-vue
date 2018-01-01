@@ -99,7 +99,7 @@ export const store = new Vuex.Store({
             user.email = puser.email;
             user.phoneNumber = puser.phoneNumber;
             user.photoURL = puser.photoURL;
-            commit('getUserData', payload.user);
+            commit('getUserData', user);
         },
         signout({ commit }) {
             commit('signout');
