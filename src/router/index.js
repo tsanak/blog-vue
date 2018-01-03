@@ -7,12 +7,13 @@ import BlogPost from '@/components/BlogPost'
 import SignIn from '@/components/SignIn'
 import SignUp from '@/components/SignUp'
 import Dashboard from '@/components/Dashboard'
+import Error404 from '@/components/Error404'
 
 Vue.use(Router)
 
 export default new Router({
   linkActiveClass: 'active',
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',
@@ -48,6 +49,11 @@ export default new Router({
       meta: {
         requiresAuth: true
        }
+    },
+    {
+      path: '*',
+      name: 'error404',
+      component: Error404
     }
   ],
   scrollBehavior (to, from, savedPosition) {
