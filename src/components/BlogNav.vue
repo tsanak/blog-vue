@@ -17,6 +17,11 @@
         </ul>
         <ul class="nav-right" v-else>
             <li>
+                <router-link :to="{ name: 'add-blog'}">
+                    Add new post
+                </router-link>
+            </li>
+            <li>
                 <router-link :to="{ name: 'dashboard'}">
                     Dashboard
                 </router-link>

@@ -10,7 +10,11 @@ import config from './config';
 Vue.config.productionTip = false
 
 let app;
-Firebase.initializeApp(config);
+let fb = Firebase.initializeApp(config);
+let db = fb.database();
+const postsRef = db.ref('posts');
+
+store.dispatch('savePostsRef', { postsRef });
 
 Firebase.auth().onAuthStateChanged(function(user) {
   if (user) {

@@ -17,7 +17,6 @@
             if(!user) {
                 this.$router.go('/');
             }
-            
         }
     }
 </script>

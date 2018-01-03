@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 //import createPersistedState from 'vuex-persistedstate';
 import axios from 'axios';
+import { map } from '@firebase/util';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ export const store = new Vuex.Store({
         filteredPosts: [],
         postsUpdated: false,
         isLoading: false,
-        user: null
+        user: null,
+        postsRef: null
     },
     getters: {
         posts(state) {
@@ -34,6 +36,9 @@ export const store = new Vuex.Store({
         },
         user(state) {
             return state.user;
+        },
+        postsRef(state) {
+            return state.postsRef;
         }
     },
     mutations: {
@@ -59,6 +64,9 @@ export const store = new Vuex.Store({
         },
         signout(state) {
             state.user = null;
+        },
+        savePostsRef(state, postsRef) {
+            state.postsRef = postsRef;
         }
     },
     actions: {
@@ -103,6 +111,9 @@ export const store = new Vuex.Store({
         },
         signout({ commit }) {
             commit('signout');
+        },
+        savePostsRef({ commit }, payload) {
+            commit('savePostsRef', payload.postsRef);
         }
     }
 });

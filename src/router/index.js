@@ -8,6 +8,7 @@ import SignIn from '@/components/SignIn'
 import SignUp from '@/components/SignUp'
 import Dashboard from '@/components/Dashboard'
 import Error404 from '@/components/Error404'
+import AddBlog from '@/components/AddBlog'
 
 Vue.use(Router)
 
@@ -46,6 +47,14 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      meta: {
+        requiresAuth: true
+       }
+    },
+    {
+      path: '/add-blog',
+      name: 'add-blog',
+      component: AddBlog,
       meta: {
         requiresAuth: true
        }
