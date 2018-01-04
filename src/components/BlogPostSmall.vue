@@ -5,6 +5,7 @@
         <div class="post_extra">
             <p class="post_category">Category {{ post.category | showOnlyNumber }}</p>
             <p class="post_title">{{ post.title }}</p>
+            <p v-if="post.createdDate != null">{{ post.createdDate }}</p>
         </div>
     </div>
     </router-link>
@@ -17,6 +18,19 @@ export default {
     filters: {
         showOnlyNumber(value) {
             return value.substr(3, value.length);
+        }
+    },
+    beforeMount() {
+        let created = this.post.created;
+        let locale = "en-us";
+        if(created) {
+            let date = new Date(created);
+            let createdDate = {
+                day: date.getDate(),
+                month: date.toLocaleString(locale, { month: "short" }),
+                year: date.getFullYear()
+            }
+            this.post.createdDate = createdDate.day + " " + createdDate.month + " " + createdDate.year;
         }
     }
 }

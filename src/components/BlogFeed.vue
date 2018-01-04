@@ -5,7 +5,7 @@
                 <blog-post-small
                 v-for='(item, index) in posts'
                 v-bind:key='index'
-                v-bind:post="{ title: item.title, image: item.url , id: item.id, category: item.category }"
+                v-bind:post="item"
                 />
         </div>
         <h3 v-else>There are no posts yet :(</h3>   

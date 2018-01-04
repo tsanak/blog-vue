@@ -1,6 +1,17 @@
 <template>
     <div>
-        <form @submit.prevent>
+        <div class="success" v-if="submitted">
+            <h4 class="text-center">Your post was added successfully</h4>
+            <div class="post-preview">
+                <h4>Title</h4>
+                <p>{{ post.title }}</p>
+                <h4>Content</h4>
+                <p>{{ post.content }}</p>
+                <h4>Category</h4>
+                <p>{{ post.category }}</p>
+            </div>
+        </div>
+        <form @submit.prevent v-else>
             <div class="error" v-if="hasError">
                 {{ error }}
             </div>
@@ -19,6 +30,7 @@
 </template>
 
 <script>
+import Firebase from 'firebase';
     export default {
         name: 'addBlog',
         data() {
@@ -26,8 +38,10 @@
                 post: {
                     title: '',
                     content: '',
-                    category: ''
+                    category: '',
+                    created: Firebase.database.ServerValue.TIMESTAMP
                 },
+                submitted: false,
                 error: '',
                 categories: [
                     {
@@ -65,7 +79,16 @@
                     return;
                 }
                 this.error = '';
-                this.postsRef.push(this.post);
+                let self = this;
+                this.postsRef.push(this.post, function(error) {
+                    if(error) {
+                        console.log(error);
+                    }
+                    else {
+                        //Data was posted successfully
+                        self.submitted = true;
+                    }
+                });
             }
         }
     }
@@ -82,6 +105,16 @@
         padding: 20px 10px;
         width: 100%;
         margin-bottom: 20px;
+    }
+
+    .success {
+        width: 50%;
+        margin: 10px auto;
+    }
+
+    .post-preview {
+        border: 1px solid #585858;
+        padding: 10px;
     }
 
     form {

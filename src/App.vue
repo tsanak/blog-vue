@@ -90,6 +90,10 @@ body {
   margin: 10px 0;
 }
 
+.text-center{
+  text-align: center;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }
