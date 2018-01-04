@@ -1,6 +1,6 @@
 <template>
-    <div class="blog__post">
-        <img :src="singlePost.url" alt="">
+    <div class="blog__post" v-if="singlePost != null">
+        <img src="/src/assets/placeholder.png" alt="">
         <div class="content">
             <h4>{{ singlePost.title }}</h4>
             <p>{{ singlePost.id }}</p>
@@ -14,30 +14,14 @@ import axios from 'axios'
 export default {
     name: 'blog-post',
     props: ['post'],
-    data() {
-        return {
-            singlePost: {}
+    computed: {
+        singlePost() {
+            return this.$store.getters.singlePost;
         }
     },
-    created() {
-        this.getPost();
-    },
-    methods: {
-        getPost() {
-            let that = this;
-            axios.get(`https://jsonplaceholder.typicode.com/photos/${that.$route.params.post}`)
-            .then(function(response) {
-                that.singlePost = response.data;
-            })
-            .catch(function(error){
-                console.log(error);
-            });
-        }
-    },
-    watch: {
-        // call again the method if the route changes
-        '$route': 'getPost'
-    },
+    beforeMount() {
+        this.$store.dispatch('getPostById', { id: this.post }); 
+    }
 }
 </script>
 

@@ -13,7 +13,12 @@
 <script>
 export default {
     name: 'blog-post-small',
-    props: ['post']
+    props: ['post'],
+    beforeMount() {
+        if(this.post.image == undefined || this.post.image == null) {
+            this.post.image = '/src/assets/placeholder.png';
+        }
+    }
 }
 </script>
 

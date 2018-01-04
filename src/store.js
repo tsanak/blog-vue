@@ -11,10 +11,12 @@ export const store = new Vuex.Store({
     state: {
         posts: [],
         filteredPosts: [],
+        singlePost: null,
         postsUpdated: false,
         isLoading: false,
         user: null,
-        postsRef: null
+        postsRef: null,
+        dbRef: null
     },
     getters: {
         posts(state) {
@@ -39,6 +41,12 @@ export const store = new Vuex.Store({
         },
         postsRef(state) {
             return state.postsRef;
+        },
+        singlePost(state) {
+            return state.singlePost;
+        },
+        dbRef(state) {
+            return state.dbRef;
         }
     },
     mutations: {
@@ -67,17 +75,27 @@ export const store = new Vuex.Store({
         },
         savePostsRef(state, postsRef) {
             state.postsRef = postsRef;
+        },
+        getPostById(state, singlePost) {
+            state.singlePost = singlePost;
+        },
+        dbRef(state, dbRef) {
+            state.dbRef = dbRef;
         }
     },
     actions: {
         async getInitialPosts({ commit, state }) {
             try {
-                const postsApi = await axios.get("https://jsonplaceholder.typicode.com/photos")
-                const posts = postsApi.data.slice(0, 100);
-                for(let pos of posts) {
-                    pos["category"] = Math.floor((Math.random() * 3) + 1);
-                }
-                commit('getInitialPosts', posts); 
+                state.postsRef.on('value', function(snapshot) {
+                    let postsObj = snapshot.val();
+                    let posts = [];
+                    for(let k of Object.keys(postsObj)) {
+                        let obj = postsObj[k];
+                        obj['id'] = k;
+                        posts.push(obj);
+                    }
+                    commit('getInitialPosts', posts);                
+                });
             }
             catch( error ){
                 console.log(error);
@@ -88,6 +106,13 @@ export const store = new Vuex.Store({
                 return blogPost.category == payload.id;
             });
             commit('getPostsInCategory', filteredPosts);
+        },
+        getPostById({ commit, state }, payload) {
+            state.dbRef.ref('/posts/' + payload.id).once('value', function(value) {
+                let singlePost = value.val();
+                singlePost['id'] = payload.id;
+                commit('getPostById', singlePost);
+            });
         },
         resetCategoryFiltering({ commit }) {
             commit('resetCategoryFiltering');
@@ -114,6 +139,9 @@ export const store = new Vuex.Store({
         },
         savePostsRef({ commit }, payload) {
             commit('savePostsRef', payload.postsRef);
+        },
+        dbRef({ commit }, payload) {
+            commit('dbRef', payload.dbRef);
         }
     }
 });
