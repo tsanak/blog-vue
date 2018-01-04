@@ -1,9 +1,9 @@
 <template>
 <router-link :to="`/read/${post.id}`">
     <div class="blog__post_small">
-        <img :src="post.image" alt="">
+        <img src="/src/assets/placeholder.png" alt="">
         <div class="post_extra">
-            <p class="post_category">Category {{ post.category }}</p>
+            <p class="post_category">Category {{ post.category | showOnlyNumber }}</p>
             <p class="post_title">{{ post.title }}</p>
         </div>
     </div>
@@ -14,9 +14,9 @@
 export default {
     name: 'blog-post-small',
     props: ['post'],
-    beforeMount() {
-        if(this.post.image == undefined || this.post.image == null) {
-            this.post.image = '/src/assets/placeholder.png';
+    filters: {
+        showOnlyNumber(value) {
+            return value.substr(3, value.length);
         }
     }
 }

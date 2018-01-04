@@ -18,19 +18,19 @@
             return {
                 categories: [
                     {
-                        id: 1,
+                        id: "cat1",
                         title: "Category 1"
                     },
                     {
-                        id: 2,
+                        id: "cat2",
                         title: "Category 2"
                     },
                     {
-                        id: 3,
+                        id: "cat3",
                         title: "Category 3"
                     },
                     {
-                        id: 4,
+                        id: "cat4",                        
                         title: "Category 4"
                     },
                 ],

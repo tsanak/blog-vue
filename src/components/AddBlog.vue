@@ -9,7 +9,7 @@
             <p>Choose a category</p>
             <ul>
                 <li v-for="cat in categories" v-bind:key="cat.id">
-                    <input type="radio" :id="cat.id" :value="cat.name" v-model.lazy="post.category">
+                    <input type="radio" :id="cat.id" :value="cat.id" v-model.lazy="post.category">
                     <label :for="cat.id">{{ cat.name }}</label>
                 </li>
             </ul>
