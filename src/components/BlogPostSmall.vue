@@ -1,7 +1,7 @@
 <template>
 <router-link :to="`/read/${post.id}`">
     <div class="blog__post_small">
-        <img src="/src/assets/placeholder.png" alt="">
+        <img :src="imageUrl" alt="">
         <div class="post_extra">
             <p class="post_category">Category {{ post.category | showOnlyNumber }}</p>
             <p class="post_title">{{ post.title }}</p>
@@ -20,6 +20,11 @@ export default {
             return value.substr(3, value.length);
         }
     },
+    data() {
+        return {
+            imageUrl: '/src/assets/placeholder.png'
+        }
+    },
     beforeMount() {
         let created = this.post.created;
         let locale = "en-us";
@@ -31,6 +36,10 @@ export default {
                 year: date.getFullYear()
             }
             this.post.createdDate = createdDate.day + " " + createdDate.month + " " + createdDate.year;
+        };
+        let imgurl = this.post.imageUrl;
+        if (imgurl && imgurl != '') {
+            this.imageUrl = imgurl;
         }
     }
 }

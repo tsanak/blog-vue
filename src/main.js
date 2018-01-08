@@ -12,8 +12,11 @@ Vue.config.productionTip = false
 let app;
 let fb = Firebase.initializeApp(config);
 let db = fb.database();
+const storageRef = fb.storage().ref();
 const postsRef = db.ref('posts');
 const dbRef = db;
+
+store.dispatch('storageRef', { storageRef });
 store.dispatch('savePostsRef', { postsRef });
 store.dispatch('dbRef', { dbRef });
 

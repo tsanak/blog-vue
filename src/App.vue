@@ -77,6 +77,28 @@ body {
   box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, .2);
 }
 
+.btn--danger {
+  background: #97282e;
+  color: #fff;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
+  border-radius: 2px;
+  padding: 12px 36px;
+}
+
+.btn--danger:hover, .btn--danger:active {
+  background: #852328;
+}
+
+.center {
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+}
+
+.d-block {
+  display: block;
+}
+
 .form__field {
   width: 360px;
   background: #fff;

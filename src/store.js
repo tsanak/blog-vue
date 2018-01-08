@@ -16,7 +16,8 @@ export const store = new Vuex.Store({
         isLoading: false,
         user: null,
         postsRef: null,
-        dbRef: null
+        dbRef: null,
+        storageRef: null
     },
     getters: {
         posts(state) {
@@ -47,6 +48,9 @@ export const store = new Vuex.Store({
         },
         dbRef(state) {
             return state.dbRef;
+        },
+        storageRef(state) {
+            return state.storageRef;
         }
     },
     mutations: {
@@ -81,6 +85,9 @@ export const store = new Vuex.Store({
         },
         dbRef(state, dbRef) {
             state.dbRef = dbRef;
+        },
+        storageRef(state, storageRef) {
+            state.storageRef = storageRef;
         }
     },
     actions: {
@@ -142,6 +149,9 @@ export const store = new Vuex.Store({
         },
         dbRef({ commit }, payload) {
             commit('dbRef', payload.dbRef);
+        },
+        storageRef({ commit }, payload) {
+            commit('storageRef', payload.storageRef);
         }
     }
 });

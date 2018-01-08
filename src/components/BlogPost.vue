@@ -1,6 +1,6 @@
 <template>
     <div class="blog__post" v-if="singlePost != null">
-        <img src="/src/assets/placeholder.png" alt="">
+        <img :src="imageUrl" alt="">
         <div class="content">
             <h4>{{ singlePost.title }}</h4>
             <p>{{ singlePost.id }}</p>
@@ -17,10 +17,15 @@ export default {
     computed: {
         singlePost() {
             return this.$store.getters.singlePost;
+        },
+        imageUrl() {
+            let imgurl = this.singlePost.imageUrl;
+            if (imgurl && imgurl != '') return imgurl;
+            return "/src/assets/placeholder.png";
         }
     },
     beforeMount() {
-        this.$store.dispatch('getPostById', { id: this.post }); 
+        this.$store.dispatch('getPostById', { id: this.post });
     }
 }
 </script>

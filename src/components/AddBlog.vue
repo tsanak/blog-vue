@@ -24,6 +24,12 @@
                     <label :for="cat.id">{{ cat.name }}</label>
                 </li>
             </ul>
+            <p>Choose an image</p>
+            <input type="file" class='d-block upload-file' @change="addImage" v-if="image == ''" accept="image/*">
+            <div v-else>
+                <img :src="image" id='img_preview' />
+                <button type="button" class="btn btn--danger center" @click="removeImage">Change image</button>
+            </div>
             <button type="button" class="btn btn--primary" @click="addPost">Add post</button>
         </form>
     </div>
@@ -31,6 +37,7 @@
 
 <script>
 import Firebase from 'firebase';
+var uuid = require("uuid");
     export default {
         name: 'addBlog',
         data() {
@@ -39,8 +46,10 @@ import Firebase from 'firebase';
                     title: '',
                     content: '',
                     category: '',
+                    imageUrl: '',
                     created: Firebase.database.ServerValue.TIMESTAMP
                 },
+                image: '',
                 submitted: false,
                 error: '',
                 categories: [
@@ -61,7 +70,8 @@ import Firebase from 'firebase';
                         id: 'cat4'
                     },
                 ],
-                postsRef: this.$store.getters.postsRef
+                postsRef: this.$store.getters.postsRef,
+                storageRef: this.$store.getters.storageRef
             }
         },
         computed: {
@@ -80,15 +90,57 @@ import Firebase from 'firebase';
                 }
                 this.error = '';
                 let self = this;
-                this.postsRef.push(this.post, function(error) {
-                    if(error) {
-                        console.log(error);
-                    }
-                    else {
-                        //Data was posted successfully
-                        self.submitted = true;
-                    }
-                });
+                if(this.image != '') {
+                    let uploadTask = this.storageRef.child(uuid.v4()).putString(self.image, 'data_url');
+
+                    uploadTask.on('state_changed', function(snapshot){
+                    }, function(error) {
+                        // Handle unsuccessful uploads
+                        return;
+                    }, function() {
+                        self.post.imageUrl = uploadTask.snapshot.downloadURL;
+                        self.postsRef.push(self.post, function(error) {
+                            if(error) {
+                                console.log(error);
+                            }
+                            else {
+                                //Data was posted successfully
+                                self.submitted = true;
+                            }
+                        });
+                    });
+                }
+                else {
+                    self.postsRef.push(self.post, function(error) {
+                        if(error) {
+                            console.log(error);
+                        }
+                        else {
+                            //Data was posted successfully
+                            self.submitted = true;
+                        }
+                    });
+                }
+            },
+            addImage(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                var reader = new FileReader();
+                var self = this;
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    let res = e.target.result;
+                    let substrImg = res.substr(5, 5);
+                    if(substrImg == 'image') self.image = e.target.result;
+                    else self.image = '';
+                };
+            },
+            removeImage() {
+                this.image = '';
             }
         }
     }
@@ -152,5 +204,15 @@ import Firebase from 'firebase';
 
     ul li:last-child {
         margin-right: 0;
+    }
+
+    #img_preview {
+        width: 30%;
+        display: block;
+        margin: 10px auto;
+    }
+
+    .upload-file {
+        margin: 10px 0 40px 0;
     }
 </style>
